@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerManager : NetworkBehaviour
 {
+    //test commit for git
     private Game _currentGame;
 
     public GameObject Card;

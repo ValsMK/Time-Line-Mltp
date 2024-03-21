@@ -1,4 +1,5 @@
 using Mirror;
+using System.Collections.Generic;
 using UnityEngine;
 
 //NetworkBehaviour
@@ -41,12 +42,12 @@ public class NetworkGameManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
-        NetworkServer.connections[0].Disconnect();
 
-
-        //foreach (var connection in NetworkServer.connections)
-        //{
-        //    connection.Value.Disconnect();
-        //}
+        NetworkConnectionToClient cn = null;
+        foreach (var connection in NetworkServer.connections)
+            cn = connection.Value;
+        
+        NetworkServer.DestroyPlayerForConnection(cn);
+        cn.Disconnect();
     }
 }

@@ -3,19 +3,15 @@ using UnityEngine;
 
 public class MoveTimelineScript : NetworkBehaviour
 {
+    public GameObject Line;
+
     public void  MoveLeft()
     {
-        var Timeline = GameObject.Find("Line").transform;
-        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
-        var _playerManager = networkIdentity.GetComponent<PlayerManager>();
-        _playerManager.CmdMoveLeft(Timeline);
+        Line.transform.position += new Vector3(1.5f, 0f, 0f);
     }
 
     public void MoveRight()
     {
-        var Timeline = GameObject.Find("Line").transform;
-        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
-        var _playerManager = networkIdentity.GetComponent<PlayerManager>();
-        _playerManager.CmdMoveRight(Timeline);
+        Line.transform.position -= new Vector3(1.5f, 0f, 0f);
     }
 }

@@ -168,17 +168,17 @@ public class GameManagerScript : NetworkBehaviour
         }
     }
 
-    public void Moveleft()      //Начинаем фунцию Moveleft
-    {
-        //Timeline.position  += new Vector3(3, 0, 0);   //Сдвигаем тайм-лайн на 1 шаг вправо
-        GetComponent<PlayerManager>().CmdMoveLeft(Timeline);
-    }
+    //public void Moveleft()      //Начинаем фунцию Moveleft
+    //{
+    //    //Timeline.position  += new Vector3(3, 0, 0);   //Сдвигаем тайм-лайн на 1 шаг вправо
+    //    GetComponent<PlayerManager>().CmdMoveLeft(Timeline);
+    //}
 
-    public void MoveRight()      //Начинаем фунцию MoveRight
-    {
-        //Timeline.position -= new Vector3(3, 0, 0);   //Сдвигаем тайм-лайн на 1 шаг влево
-        GetComponent<PlayerManager>().CmdMoveRight(Timeline);
-    }
+    //public void MoveRight()      //Начинаем фунцию MoveRight
+    //{
+    //    //Timeline.position -= new Vector3(3, 0, 0);   //Сдвигаем тайм-лайн на 1 шаг влево
+    //    GetComponent<PlayerManager>().CmdMoveRight(Timeline);
+    //}
 
     public void RestartGame()       //Начало функции RestartGame, вызываемой при нажатии кнопки "Начать заново"
     {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8342524079456319450}
   - component: {fileID: 2089473403277806537}
   m_Layer: 5
-  m_Name: Lose/Win text
+  m_Name: EndGameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

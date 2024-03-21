@@ -18,6 +18,9 @@ public class PlayerManager : NetworkBehaviour
     private GameObject WaitingForSecondPlayer;
     private GameObject NotYourTurn;
     private GameObject EndGameMenu;
+    private GameObject AnswerRight;
+    private GameObject AnswerWrong;
+    private GameObject AnswerEmpty;
 
     [Client]
     public override void OnStartClient()
@@ -32,6 +35,9 @@ public class PlayerManager : NetworkBehaviour
         WaitingForSecondPlayer = GameObject.Find("WaitingForSecondPlayer");
         NotYourTurn = GameObject.Find("NotYourTurn");
         EndGameMenu = GameObject.Find("EndGame");
+        AnswerRight = GameObject.Find("AnswerRight");
+        AnswerWrong = GameObject.Find("AnswerWrong");
+        AnswerEmpty = GameObject.Find("AnswerEmpty");
     }
 
     [Server]
@@ -40,24 +46,6 @@ public class PlayerManager : NetworkBehaviour
         base.OnStartServer();
 
         _currentGame = GameObject.Find("GameManager").GetComponent<GameManagerNew>().CurrentGame;
-    }
-
-    [Command]
-    public void CmdMoveLeft(Transform Timeline)
-    {
-#if DEBUG
-        Debug.Log(Timeline.position);
-#endif
-        Timeline.position += new Vector3(3, 0, 0);
-    }
-
-    [Command]
-    public void CmdMoveRight(Transform Timeline)
-    {
-#if DEBUG
-        Debug.Log(Timeline.position);
-#endif
-        Timeline.position -= new Vector3(3, 0, 0);
     }
 
     /// <summary>
@@ -74,13 +62,13 @@ public class PlayerManager : NetworkBehaviour
         Debug.Log("GiveHandCards");
         int i = 0;
         //Начинаем цикл, проходящий 6 итераций (от 0 до 5 включительно)
-        while (i++ < 3)
+        while (i++ < 6)
             //Вызываем функцию GiveCardToHand и передаем ей текущие колоду и руку игрока
             GiveCardToHand(ref _currentGame.Deck);
     }    
 
     /// <summary>
-    ///     Метод выдает клиенту одну карту ы руку
+    ///     Метод выдает клиенту одну карту в руку
     /// </summary>
     /// <param name="deck"></param>
     private void GiveCardToHand(ref List<Card> deck)        
@@ -232,7 +220,7 @@ public class PlayerManager : NetworkBehaviour
 
             GameObject cardGO = EnemyHand.transform.GetChild(endIndex).gameObject;
 
-            cardGO.transform.localScale = new Vector3(1.25F, 1.25F, 1);
+            cardGO.transform.localScale = new Vector3(1.125F, 1.125F, 1);
         }
     }
 
@@ -314,18 +302,17 @@ public class PlayerManager : NetworkBehaviour
     [ClientRpc]
     void RpcEndGame()
     {
+        const string textName = "EndGameText";
+
+        if (EndGameMenu == null) 
+            return;
+
         EndGameMenu.SetActive(true);
 
-        if (isLocalPlayer)
-        {
-            var text = EndGameMenu.transform.Find("Lose/Win text").gameObject.GetComponent<TextMeshProUGUI>().text;
-            text = "Вы победили!";
-        }
-        else
-        {
-            var text = EndGameMenu.transform.Find("Lose/Win text").gameObject.GetComponent<TextMeshProUGUI>().text;
-            text = "Вы проиграли";
-        }
+        if (EndGameMenu.transform.Find(textName) == null)
+            return;
+
+        EndGameMenu.transform.Find(textName).gameObject.GetComponent<TextMeshProUGUI>().text = $"Вы {(isLocalPlayer ? "победили" : "проигали")} !";
     }
 }
 

@@ -3,6 +3,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 ///     Скрипт описывает перемещение объекта по экрану
@@ -26,7 +27,9 @@ public class CardMovementScript : NetworkBehaviour, IBeginDragHandler, IDragHand
     /// <summary> Сдвиг координат курсора относительно ценрта объекта  (устанавливается в OnBeginDrag)</summary>    
     private Vector3 _offset;
 
-    private GameObject Answer;
+    private GameObject AnswerRight;
+    private GameObject AnswerWrong;
+    private GameObject AnswerEmpty;
 
     /// <summary>
     ///     Объект "Временная карта". 
@@ -47,7 +50,9 @@ public class CardMovementScript : NetworkBehaviour, IBeginDragHandler, IDragHand
         _tempCardGameObject = GameObject.Find("TempCardGO");     //Присваиваем переменной TempCardGO соответствующий объект интерфейса
         _timeLine = GameObject.Find("Line");     //Присваиваем переменной TempCardGO соответствующий объект интерфейса
         _playerHand = GameObject.Find("PlayerHand");     //Присваиваем переменной TempCardGO соответствующий объект интерфейса
-        Answer = GameObject.Find("Answer");
+        AnswerRight = GameObject.Find("AnswerRight");
+        AnswerWrong = GameObject.Find("AnswerWrong");
+        AnswerEmpty = GameObject.Find("AnswerEmpty");
     }
 
     /// <summary>Событие возникает при начале перетаскивания объекта</summary>
@@ -171,13 +176,13 @@ public class CardMovementScript : NetworkBehaviour, IBeginDragHandler, IDragHand
                 playerManager.CmdBlockHand();
                 playerManager.CmdShowGameInfo();
 
-                Answer.transform.GetComponent<TextMeshProUGUI>().text = "Правильно";
-                float r = 0.15f, g = 0.3f, b = 0.0f, a = 0.6f;
-                Answer.transform.GetComponent<TextMeshProUGUI>().color = new Color(r, g, b, a);
-
+                AnswerEmpty.transform.GetComponent<Image>().color = new Color(1F, 1F, 1F, 0F);
+                AnswerRight.transform.GetComponent<Image>().color = new Color(1F, 1F, 1F, 1F);
+                AnswerWrong.transform.GetComponent<Image>().color = new Color(1F, 1F, 1F, 0F);
 
                 if (_playerHand.transform.childCount == 0)
                 {
+                    playerManager.CmdEndGame();
                     playerManager.CmdEndGame();
                 }
 
@@ -193,9 +198,9 @@ public class CardMovementScript : NetworkBehaviour, IBeginDragHandler, IDragHand
                 playerManager.CmdBlockHand();
                 playerManager.CmdShowGameInfo();
 
-                Answer.transform.GetComponent<TextMeshProUGUI>().text = "Неправильно";
-                float r = 1.0f, g = 0.0f, b = 0.0f, a = 0.6f;
-                Answer.transform.GetComponent<TextMeshProUGUI>().color = new Color(r, g, b, a);
+                AnswerEmpty.transform.GetComponent<Image>().color = new Color(1F, 1F, 1F, 0F);
+                AnswerRight.transform.GetComponent<Image>().color = new Color(1F, 1F, 1F, 0F);
+                AnswerWrong.transform.GetComponent<Image>().color = new Color(1F, 1F, 1F, 1F);
             }
         }
 
